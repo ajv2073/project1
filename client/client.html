@@ -5,15 +5,79 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    //This function gets the api from the link and turns it into an object
+    const fetchList = (link, selection) => {
+      var list;
+      fetch(link)
+      .then(response => response.json())
+      .then(data => {
+        list = data;
+      })
+      .then(() => {
+        updateSelect(list, selection);
+      })
+    }
 
+    //This function generates the lists so I don't have to do as much work
+    const updateSelect = (coolList, selection) => {
+      console.log(coolList);
+      console.log(coolList.results[4].name);
+      var max = coolList.count;
+      select = document.getElementById(`${selection}`);
+
+      for (var i = 0; i < max; i ++)
+      {
+        var string = `${coolList.results[i].name}`;
+        console.log(coolList.results[i].name);
+        var opt = document.createElement('option');
+        opt.value = `${coolList.results[i].name}`;
+        opt.innerHTML = string.charAt(0).toUpperCase() + string.slice(1);
+        select.appendChild(opt);
+      }
+    }
+
+    const init = () => {
+      fetchList('https://pokeapi.co/api/v2/pokemon?limit=1092', "pokemonSpecies");
+      fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves1');
+      fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves2');
+      fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves3');
+      fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves4');
+      fetchList('https://pokeapi.co/api/v2/ability?limit=363', 'pokemonAbilities');
+      fetchList('https://pokeapi.co/api/v2/nature?limit=25', 'pokemonNatures');
+    }
+
+    window.onload = init;
   </script>
 </head>
 <body>
   <section id="top">
     <h3>Build a Pokemon Team</h3>
     <form id="nameForm" action="/addUser" method="post">
-      <label for="name">Name: </label>
+
+      <label for="pokemonSpecies">Pokemon</label>
+      <select id="pokemonSpecies"></select>
+
+      <label for="name">Nickname: </label>
       <input id="nameField" type="text" name="name" />
+
+      <label for="pokemonAbilities">Ability</label>
+      <select id="pokemonAbilities"></select>
+
+      <label for="pokemonNatures">Nature</label>
+      <select id="pokemonNatures"></select>
+
+      <label for="pokemonMoves1">Move 1</label>
+      <select id="pokemonMoves1"></select>
+
+      <label for="pokemonMoves2">Move 2</label>
+      <select id="pokemonMoves2"></select>
+
+      <label for="pokemonMoves3">Move 3</label>
+      <select id="pokemonMoves3"></select>
+
+      <label for="pokemonMoves4">Move 4</label>
+      <select id="pokemonMoves4"></select>
+
       <input type="submit" value="Add User" />
     </form>
     <form id="userForm" action="/getUsers" method="get">
