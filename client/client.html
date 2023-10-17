@@ -38,6 +38,8 @@
 
     const handleResponse = (xhr, parseResponse) => {
       const content = document.querySelector("#content");
+      //const obj = JSON.parse(xhr.response);
+
       switch(xhr.status) {
         case 200:
           content.innerHTML = `<b>Success!</b>`;
@@ -61,24 +63,29 @@
       if(parseResponse) {
         const obj = JSON.parse(xhr.response);
 
-        if(obj.message) { 
-          content.innerHTML = `${content.innerHTML} <p>Message: ${obj.message}</p>`;
-        }
+        if (obj.pokemonToReturn)
+        {
+          displayTeam(obj.pokemonToReturn);
+        } 
 
-        else {
-          content.innerHTML = `${content.innerHTML} <p>${xhr.response}`;
-        }
+        // if(obj.message) { 
+        //   content.innerHTML = `${content.innerHTML} <p>Message: ${obj.message}</p>`;
+        // }
+
+        // else {
+        //   content.innerHTML = `${content.innerHTML} <p>${xhr.response}`;
+        // }
       }
     };
 
-    // const displayTeam = (pokemon) => {
-    //   const content = document.querySelector("#content");
-    //   content.innerHTML = "";
-    //   for (let i = 0; i < pokemon.length; i ++)
-    //   {
-    //     content.innerHTML = `${content.innerHTML} <div class="pokemon"><p>${pokemon[i].name}<br>${pokemon[i].move1}</p></div>`;
-    //   }
-    // };
+    const displayTeam = (pokemon) => {
+      const content = document.querySelector("#content");
+      content.innerHTML = "";
+      for (let i = 0; i < pokemon.length; i ++)
+      {
+        content.innerHTML = `${content.innerHTML} <div class="pokemon"><p>${pokemon[i].pokemonSpecies}<br>${pokemon[i].pokemonMoves1}</p></div>`;
+      }
+    };
 
     const sendPost = (e, nameForm) => {
       const nameAction = nameForm.getAttribute('action');
@@ -104,7 +111,9 @@
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.onload = () => handleResponse(xhr, true);
-      const formData = `Pokemon: ${speciesField.value}, Move 1: ${move1Field.value}`;
+      const formData = `pokemonSpecies=${speciesField.value}&nameField=${nickNameField.value}&pokemonMoves1=${move1Field.value}&pokemonMoves2=${move2Field.value}` +
+      `&pokemonMoves3=${move3Field.value}&pokemonMoves4=${move4Field.value}&pokemonNatures=${natureField.value}&pokemonAbilities=${abilityField.value}`;
+      console.log(formData);
       xhr.send(formData);
 
       //Prevents page redirection
@@ -156,28 +165,42 @@
     <form id="nameForm" action="/addPokemon" method="post">
 
       <label for="pokemonSpecies">Pokemon</label>
-      <select id="pokemonSpecies"></select>
+      <select id="pokemonSpecies">
+        <option disabled selected value> -- select a Pokemon -- </option>
+      </select>
 
       <label for="name">Nickname: </label>
       <input id="nameField" type="text" name="name" />
 
       <label for="pokemonAbilities">Ability</label>
-      <select id="pokemonAbilities"></select>
+      <select id="pokemonAbilities">
+        <option disabled selected value> -- select an ability -- </option>
+      </select>
 
       <label for="pokemonNatures">Nature</label>
-      <select id="pokemonNatures"></select>
+      <select id="pokemonNatures">
+        <option disabled selected value> -- select a nature -- </option>
+      </select>
 
       <label for="pokemonMoves1">Move 1</label>
-      <select id="pokemonMoves1"></select>
+      <select id="pokemonMoves1">
+        <option disabled selected value> -- select a move -- </option>
+      </select>
 
       <label for="pokemonMoves2">Move 2</label>
-      <select id="pokemonMoves2"></select>
+      <select id="pokemonMoves2">
+        <option disabled selected value> -- select a move -- </option>
+      </select>
 
       <label for="pokemonMoves3">Move 3</label>
-      <select id="pokemonMoves3"></select>
+      <select id="pokemonMoves3">
+        <option disabled selected value> -- select a move -- </option>
+      </select>
 
       <label for="pokemonMoves4">Move 4</label>
-      <select id="pokemonMoves4"></select>
+      <select id="pokemonMoves4">
+        <option disabled selected value> -- select a move -- </option>
+      </select>
 
       <input type="submit" value="Add Pokemon" />
     </form>

@@ -3,34 +3,34 @@ let pokemonTeam = [];
 
 //Contains all Pokemon information
 class Pokemon {
-    constructor(name, nickname, move1, move2, move3, move4, ability, nature){
-        this.name = name;
-        this.nickname = nickname;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-        this.ability = ability;
-        this.nature = nature;
+    constructor(pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures){
+        this.pokemonSpecies = pokemonSpecies;
+        this.nameField = nameField;
+        this.pokemonMoves1 = pokemonMoves1;
+        this.pokemonMoves2 = pokemonMoves2;
+        this.pokemonMoves3 = pokemonMoves3;
+        this.pokemonMoves4 = pokemonMoves4;
+        this.pokemonAbilities = pokemonAbilities;
+        this.pokemonNatures = pokemonNatures;
     }
 }
 
 //Add new Pokemon
-const addPokemon = (name, nickname, move1, move2, move3, move4, ability, nature) => {
-    const newPokemon = new Pokemon(name, nickname, move1, move2, move3, move4, ability, nature);
+const addPokemon = (pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures) => {
+    const newPokemon = new Pokemon(pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures);
     pokemonTeam.push(newPokemon);
 }
 
 //Remove a Pokemon from the list
-const removePokemon = (nickname) => {
+const removePokemon = (nameField) => {
     for (let i = 0; i < pokemonTeam.length; i ++)
     {
-        if (pokemonTeam[i].nickname === nickname && pokemonTeam.length === 1)
+        if (pokemonTeam[i].nameField === nameField && pokemonTeam.length === 1)
         {
             pokemonTeam = [];
             return;
         }
-        if (pokemonTeam[i].nickname === nickname)
+        if (pokemonTeam[i].nameField === nameField)
         {
             pokemonTeam.slice(i, 1);
             return;

@@ -19,15 +19,14 @@ const addPokemon = (request, response, params) => {
   };
 
   //Missing paramters
-  if (!params.name || !params.nickname || !params.move1 || !params.move2 || !params.move3 || !params.move4 || !params.ability || !params.nature)
+  if (!params.pokemonSpecies || !params.nameField || !params.pokemonMoves1 || !params.pokemonMoves2 || !params.pokemonMoves3 || !params.pokemonMoves4 || !params.pokemonAbilities || !params.pokemonNatures)
   {
     responseJSON.message = 'You are missing some parameters.  Please try again';
     responseJSON.id = 'badRequest';
     return respondJSON(request, response, 400, responseJSON);
   }
 
-
-  pokemon.addPokemon(params.name, params.nickname, params.move1, params.move2, params.move3, params.move4, params.ability, params.nature);
+  pokemon.addPokemon(params.pokemonSpecies, params.nameField, params.pokemonMoves1, params.pokemonMoves2, params.pokemonMoves3, params.pokemonMoves4, params.pokemonAbilities, params.pokemonNatures);
 
   //201 Success
   return respondJSON(request, response, 201, responseJSON);
@@ -48,13 +47,13 @@ const removePokemon = (request, response, params) => {
   };
 
   //Missing parameters
-  if (!params.nickname)
+  if (!params.nameField)
   {
     responseJSON.message = 'Nickname is missing.';
     responseJSON.id = "badRequest";
     return respondJSON(request, response, 400, responseJSON);
   }
-  pokemon.removePokemon(params.nickname);
+  pokemon.removePokemon(params.nameField);
 
   //204 success
   return respondJSON(request, response, 204, responseJSON);
