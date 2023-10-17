@@ -36,6 +36,98 @@
       }
     }
 
+    const handleResponse = (xhr, parseResponse) => {
+      const content = document.querySelector("#content");
+      switch(xhr.status) {
+        case 200:
+          content.innerHTML = `<b>Success!</b>`;
+          break;
+        case 201:
+          content.innerHTML = '<b>Create</b>';
+          break;
+        case 204:
+          content.innerHTML = '<b>Updated (No Content)</b>';
+          return;
+        case 400:
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 404:
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+        default:
+          content.innerHTML = `Error code not implemented by client.`;
+          break;
+      }  
+      if(parseResponse) {
+        const obj = JSON.parse(xhr.response);
+
+        if(obj.message) { 
+          content.innerHTML = `${content.innerHTML} <p>Message: ${obj.message}</p>`;
+        }
+
+        else {
+          content.innerHTML = `${content.innerHTML} <p>${xhr.response}`;
+        }
+      }
+    };
+
+    // const displayTeam = (pokemon) => {
+    //   const content = document.querySelector("#content");
+    //   content.innerHTML = "";
+    //   for (let i = 0; i < pokemon.length; i ++)
+    //   {
+    //     content.innerHTML = `${content.innerHTML} <div class="pokemon"><p>${pokemon[i].name}<br>${pokemon[i].move1}</p></div>`;
+    //   }
+    // };
+
+    const sendPost = (e, nameForm) => {
+      const nameAction = nameForm.getAttribute('action');
+      const nameMethod = nameForm.getAttribute('method');
+
+      const speciesField = nameForm.querySelector("#pokemonSpecies");
+      const nickNameField = nameForm.querySelector("#nameField");
+
+      const move1Field = nameForm.querySelector("#pokemonMoves1");
+      const move2Field = nameForm.querySelector("#pokemonMoves2");
+      const move3Field = nameForm.querySelector("#pokemonMoves3");
+      const move4Field = nameForm.querySelector("#pokemonMoves4");
+      const natureField = nameForm.querySelector("#pokemonNatures");
+      const abilityField = nameForm.querySelector("#pokemonAbilities");
+
+      console.log("FUCKING SANS");
+      console.log(speciesField.value);
+      console.log(nickNameField.value);
+      console.log(move1Field.value);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(nameMethod, nameAction);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.onload = () => handleResponse(xhr, true);
+      const formData = `Pokemon: ${speciesField.value}, Move 1: ${move1Field.value}`;
+      xhr.send(formData);
+
+      //Prevents page redirection
+      e.preventDefault();
+      return false;
+    };
+
+      //Head or get requests
+      const requestUpdate = (e, userForm) => {
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.onload = () => handleResponse(xhr, method == 'get');
+      xhr.send();
+
+      //Prevents page redirection
+      e.preventDefault();
+      return false;
+    };
+  
+
     const init = () => {
       fetchList('https://pokeapi.co/api/v2/pokemon?limit=1092', "pokemonSpecies");
       fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves1');
@@ -44,6 +136,15 @@
       fetchList('https://pokeapi.co/api/v2/move?limit=922', 'pokemonMoves4');
       fetchList('https://pokeapi.co/api/v2/ability?limit=363', 'pokemonAbilities');
       fetchList('https://pokeapi.co/api/v2/nature?limit=25', 'pokemonNatures');
+
+      const nameForm = document.querySelector("#nameForm");
+      const userForm = document.querySelector("#userForm");
+
+      const addPokemon = (e) => sendPost(e, nameForm);
+      const getPokemon = (e) => requestUpdate(e, userForm); 
+
+      nameForm.addEventListener('submit', addPokemon);
+      userForm.addEventListener('submit', getPokemon);
     }
 
     window.onload = init;
@@ -52,7 +153,7 @@
 <body>
   <section id="top">
     <h3>Build a Pokemon Team</h3>
-    <form id="nameForm" action="/addUser" method="post">
+    <form id="nameForm" action="/addPokemon" method="post">
 
       <label for="pokemonSpecies">Pokemon</label>
       <select id="pokemonSpecies"></select>
@@ -78,11 +179,11 @@
       <label for="pokemonMoves4">Move 4</label>
       <select id="pokemonMoves4"></select>
 
-      <input type="submit" value="Add User" />
+      <input type="submit" value="Add Pokemon" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
+    <form id="userForm" action="/getPokemon" method="get">
       <select id='urlField'>
-        <option value='/getUsers'>/getPokemon</option>
+        <option value='/getPokemon'>/getPokemon</option>
         <option value='/notReal'>/notReal</option>
       </select>
       <select id="methodSelect">

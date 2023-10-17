@@ -19,3 +19,12 @@ html, body {
     font-size: 2em;
     text-align: center;
   }
+
+  .pokemon {
+    margin: auto;
+    max-width: 450px;
+    border: 2px solid black;
+    margin-bottom: 20px;
+    padding: 5px;
+    background: #f8e3f4;
+  }
