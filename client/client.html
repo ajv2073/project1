@@ -68,13 +68,9 @@
           displayTeam(obj.pokemonToReturn);
         } 
 
-        // if(obj.message) { 
-        //   content.innerHTML = `${content.innerHTML} <p>Message: ${obj.message}</p>`;
-        // }
-
-        // else {
-        //   content.innerHTML = `${content.innerHTML} <p>${xhr.response}`;
-        // }
+        if(obj.message) { 
+          content.innerHTML = `${content.innerHTML} <p>Message: ${obj.message}</p>`;
+        }
       }
     };
 
@@ -83,7 +79,20 @@
       content.innerHTML = "";
       for (let i = 0; i < pokemon.length; i ++)
       {
-        content.innerHTML = `${content.innerHTML} <div class="pokemon"><p>${pokemon[i].pokemonSpecies}<br>${pokemon[i].pokemonMoves1}</p></div>`;
+        var string = pokemon[i].pokemonSpecies;
+        content.innerHTML = `${content.innerHTML} <div class="pokemon">
+          <img src="https://img.pokemondb.net/artwork/large/${pokemon[i].pokemonSpecies}.jpg"/> 
+          <p>${pokemon[i].nameField} the ${string.charAt(0).toUpperCase() + string.slice(1)}</p>
+          
+          <div class="description">
+          <p>This Pokemon is very ${pokemon[i].pokemonNatures.charAt(0).toUpperCase() + pokemon[i].pokemonNatures.slice(1)} in nature! </p>
+          
+          <p>This Pokemon's ability is ${pokemon[i].pokemonAbilities.charAt(0).toUpperCase() + pokemon[i].pokemonAbilities.slice(1)}</p>
+          
+          <p>Their moves are: </p>
+          <p>${pokemon[i].pokemonMoves1.charAt(0).toUpperCase() + pokemon[i].pokemonMoves1.slice(1)}<br>${pokemon[i].pokemonMoves2.charAt(0).toUpperCase() + pokemon[i].pokemonMoves2.slice(1)}<br>${pokemon[i].pokemonMoves3.charAt(0).toUpperCase() + pokemon[i].pokemonMoves3.slice(1)}<br>${pokemon[i].pokemonMoves4.charAt(0).toUpperCase() + pokemon[i].pokemonMoves4.slice(1)}</p>
+          </div>
+          </div>`;
       }
     };
 
@@ -100,11 +109,6 @@
       const move4Field = nameForm.querySelector("#pokemonMoves4");
       const natureField = nameForm.querySelector("#pokemonNatures");
       const abilityField = nameForm.querySelector("#pokemonAbilities");
-
-      console.log("FUCKING SANS");
-      console.log(speciesField.value);
-      console.log(nickNameField.value);
-      console.log(move1Field.value);
 
       const xhr = new XMLHttpRequest();
       xhr.open(nameMethod, nameAction);
@@ -161,48 +165,55 @@
 </head>
 <body>
   <section id="top">
-    <h3>Build a Pokemon Team</h3>
-    <form id="nameForm" action="/addPokemon" method="post">
+    <img src="https://fontmeme.com/permalink/231018/9be30ba6e06d340752a2614c36d7a1b8.png" alt="pokemon-font" border="0"></a>
+    <div class="container">
+      <form id="nameForm" action="/addPokemon" method="post">
 
-      <label for="pokemonSpecies">Pokemon</label>
-      <select id="pokemonSpecies">
-        <option disabled selected value> -- select a Pokemon -- </option>
-      </select>
+        <div class="left">
+          <label for="pokemonSpecies">Pokemon:</label> <br>
+          <select id="pokemonSpecies" autocomplete="on">
+            <option disabled selected value> -- select a Pokemon -- </option>
+          </select> <br>
+  
+          <label for="name">Nickname:</label> <br>
+          <input id="nameField" type="text" name="name" /> <br>
+  
+          <label for="pokemonAbilities">Ability:</label> <br>
+          <select id="pokemonAbilities">
+            <option disabled selected value> -- select an ability -- </option>
+          </select> <br>
 
-      <label for="name">Nickname: </label>
-      <input id="nameField" type="text" name="name" />
-
-      <label for="pokemonAbilities">Ability</label>
-      <select id="pokemonAbilities">
-        <option disabled selected value> -- select an ability -- </option>
-      </select>
-
-      <label for="pokemonNatures">Nature</label>
-      <select id="pokemonNatures">
-        <option disabled selected value> -- select a nature -- </option>
-      </select>
-
-      <label for="pokemonMoves1">Move 1</label>
-      <select id="pokemonMoves1">
-        <option disabled selected value> -- select a move -- </option>
-      </select>
-
-      <label for="pokemonMoves2">Move 2</label>
-      <select id="pokemonMoves2">
-        <option disabled selected value> -- select a move -- </option>
-      </select>
-
-      <label for="pokemonMoves3">Move 3</label>
-      <select id="pokemonMoves3">
-        <option disabled selected value> -- select a move -- </option>
-      </select>
-
-      <label for="pokemonMoves4">Move 4</label>
-      <select id="pokemonMoves4">
-        <option disabled selected value> -- select a move -- </option>
-      </select>
-
-      <input type="submit" value="Add Pokemon" />
+          <label for="pokemonNatures">Nature:</label> <br>
+          <select id="pokemonNatures">
+            <option disabled selected value> -- select a nature -- </option>
+          </select> <br>
+  
+        </div>
+  
+        <div class="right">
+    
+          <label for="pokemonMoves1">Move 1:</label> <br>
+          <select id="pokemonMoves1">
+            <option disabled selected value> -- select a move -- </option>
+          </select> <br>
+    
+          <label for="pokemonMoves2">Move 2:</label> <br>
+          <select id="pokemonMoves2">
+            <option disabled selected value> -- select a move -- </option>
+          </select> <br>
+    
+          <label for="pokemonMoves3">Move 3:</label> <br>
+          <select id="pokemonMoves3">
+            <option disabled selected value> -- select a move -- </option>
+          </select> <br>
+    
+          <label for="pokemonMoves4">Move 4:</label> <br>
+          <select id="pokemonMoves4">
+            <option disabled selected value> -- select a move -- </option>
+          </select> <br>
+        </div>
+        <input type="submit" value="Add Pokemon" />
+    </div>
     </form>
     <form id="userForm" action="/getPokemon" method="get">
       <select id='urlField'>
@@ -218,5 +229,6 @@
   </section>
   <section id="content">
   </section>
+  <p>Created by Andy Vece - Rochester Institute of Technology</p>
 </body>
 </html>
