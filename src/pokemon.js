@@ -3,7 +3,8 @@ let pokemonTeam = [];
 
 //Contains all Pokemon information
 class Pokemon {
-    constructor(pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures){
+    constructor(pokemonSpecies, nameField, pokemonMoves1, 
+        pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures){
         this.pokemonSpecies = pokemonSpecies;
         this.nameField = nameField;
         this.pokemonMoves1 = pokemonMoves1;
@@ -16,8 +17,10 @@ class Pokemon {
 }
 
 //Add new Pokemon
-const addPokemon = (pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures) => {
-    const newPokemon = new Pokemon(pokemonSpecies, nameField, pokemonMoves1, pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures);
+const addPokemon = (pokemonSpecies, nameField, pokemonMoves1, 
+    pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures) => {
+    const newPokemon = new Pokemon(pokemonSpecies, nameField, pokemonMoves1, 
+        pokemonMoves2, pokemonMoves3, pokemonMoves4, pokemonAbilities, pokemonNatures);
     pokemonTeam.push(newPokemon);
 }
 
